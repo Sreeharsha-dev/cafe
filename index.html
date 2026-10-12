@@ -1,0 +1,907 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BREW & BEAN | Artisan Coffee</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coffee: #4b2e24;
+            --cream: #f8f3eb;
+            --orange: #c67b45;
+            --dark: #211a16;
+            --muted: #786d65;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Trebuchet MS", Arial, sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            font: inherit;
+        }
+
+        /* Navigation */
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+            padding: 24px 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #e5a66d;
+        }
+
+        nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        nav a {
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #e5a66d;
+        }
+
+        .nav-button,
+        .primary-button {
+            border: none;
+            background: var(--orange);
+            color: white;
+            padding: 13px 23px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .nav-button:hover,
+        .primary-button:hover {
+            background: #a96131;
+            transform: translateY(-2px);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+        }
+
+        /* Hero */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 130px 8% 70px;
+            position: relative;
+            color: white;
+            background:
+                linear-gradient(90deg,
+                    rgba(24, 17, 13, 0.92) 0%,
+                    rgba(24, 17, 13, 0.72) 48%,
+                    rgba(24, 17, 13, 0.25) 100%),
+                url("https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=2000&q=85")
+                center/cover no-repeat;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            animation: fadeUp 1s ease;
+        }
+
+        .eyebrow {
+            color: #e5a66d;
+            font-size: 13px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: clamp(46px, 7vw, 86px);
+            line-height: 1.08;
+            margin-bottom: 24px;
+            font-weight: 800;
+        }
+
+        h1 span {
+            color: #e5a66d;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        .hero-content p {
+            color: #e0d8d1;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 32px;
+        }
+
+        .secondary-button {
+            display: inline-block;
+            padding: 13px 23px;
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 4px;
+            margin-left: 12px;
+            transition: 0.3s;
+        }
+
+        .secondary-button:hover {
+            background: white;
+            color: var(--dark);
+        }
+
+        .hero-note {
+            margin-top: 70px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #d4c4b6;
+        }
+
+        /* Common sections */
+
+        section {
+            padding: 100px 8%;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 50px;
+        }
+
+        .section-heading .eyebrow {
+            color: var(--orange);
+            margin-bottom: 14px;
+        }
+
+        h2 {
+            font-family: Georgia, serif;
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        /* Menu */
+
+        .menu-section {
+            background: var(--cream);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(55, 35, 20, 0.12);
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 245px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .menu-info {
+            padding: 24px;
+        }
+
+        .menu-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .menu-title h3 {
+            font-size: 19px;
+        }
+
+        .price {
+            color: var(--orange);
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .menu-info p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* About */
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 75px;
+            align-items: center;
+            background: #eee4d7;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--coffee);
+            color: white;
+            padding: 24px;
+            border-radius: 6px;
+            font-family: Georgia, serif;
+            font-size: 20px;
+        }
+
+        .about-content .eyebrow {
+            color: var(--orange);
+        }
+
+        .about-content p {
+            line-height: 1.9;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+
+        .features li {
+            margin: 14px 0;
+            font-size: 15px;
+        }
+
+        .features li::before {
+            content: "✓";
+            color: var(--orange);
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        /* Visit section */
+
+        .visit-section {
+            text-align: center;
+            background:
+                linear-gradient(rgba(35, 22, 16, 0.88),
+                rgba(35, 22, 16, 0.88)),
+                url("https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80")
+                center/cover;
+            color: white;
+        }
+
+        .visit-section p {
+            color: #d8ccc2;
+            line-height: 1.9;
+            margin: 15px 0 30px;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #211a16;
+            color: white;
+            padding: 35px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: #bdb1a7;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .social-links a:hover {
+            color: #e5a66d;
+        }
+
+        /* Reservation modal */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--cream);
+            padding: 35px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 430px;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            font-size: 30px;
+        }
+
+        .modal-content p {
+            color: var(--muted);
+            margin-bottom: 22px;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 18px;
+            top: 14px;
+            background: none;
+            border: none;
+            font-size: 27px;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 14px;
+            border: 1px solid #d7c8ba;
+            border-radius: 4px;
+            background: white;
+            font: inherit;
+        }
+
+        .modal-content .primary-button {
+            width: 100%;
+        }
+
+        #form-message {
+            margin-top: 15px;
+            color: #356b3b;
+            font-size: 14px;
+        }
+
+        /* Animations */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+
+        @media (max-width: 900px) {
+            header {
+                padding: 22px 5%;
+            }
+
+            nav {
+                gap: 18px;
+            }
+
+            section {
+                padding: 75px 5%;
+            }
+
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-section {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none;
+                position: absolute;
+                top: 75px;
+                left: 5%;
+                width: 90%;
+                background: #30231c;
+                padding: 25px;
+                border-radius: 8px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 22px;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            nav a,
+            nav button {
+                text-align: center;
+            }
+
+            .hero {
+                min-height: 90vh;
+                padding: 120px 6% 50px;
+                background-position: 60% center;
+            }
+
+            .hero-content p {
+                font-size: 15px;
+            }
+
+            .hero-note {
+                margin-top: 45px;
+            }
+
+            .secondary-button {
+                margin: 12px 0 0;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-card img {
+                height: 240px;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .about-image img {
+                height: 350px;
+            }
+
+            .image-label {
+                right: -5px;
+                bottom: -15px;
+                padding: 17px;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="#home" class="logo">BREW <span>&</span> BEAN.</a>
+
+        <button class="menu-toggle" id="menu-toggle"
+                aria-label="Toggle navigation"
+                aria-expanded="false">☰</button>
+
+        <nav id="navigation">
+            <a href="#home">Home</a>
+            <a href="#menu">Our Menu</a>
+            <a href="#about">Our Story</a>
+            <a href="#visit">Visit Us</a>
+            <button class="nav-button reserve-trigger">Book a Table</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="eyebrow">Your neighborhood coffee house</div>
+
+                <h1>Good Coffee.<br>Great <span>Moments.</span></h1>
+
+                <p>
+                    Slow down, sip something beautiful, and make yourself
+                    at home. Discover handcrafted coffee and fresh bites
+                    made with love, every single day.
+                </p>
+
+                <a href="#menu" class="primary-button">Explore Our Menu</a>
+                <a href="#about" class="secondary-button">Discover Our Story</a>
+
+                <div class="hero-note">
+                    FRESHLY BREWED · LOCALLY SOURCED · ALWAYS WELCOMING
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section" id="menu">
+            <div class="section-heading reveal">
+                <div class="eyebrow">Made with passion</div>
+                <h2>Your Daily Dose of Happiness</h2>
+                <p>
+                    From your first morning espresso to an afternoon treat,
+                    find your new favorite in every cup.
+                </p>
+            </div>
+
+            <div class="menu-grid">
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80"
+                        alt="Freshly brewed latte">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Classic Latte</h3>
+                            <span class="price">₹180</span>
+                        </div>
+                        <p>Rich espresso blended with silky steamed milk.</p>
+                    </div>
+                </article>
+
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
+                        alt="Espresso coffee">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Double Espresso</h3>
+                            <span class="price">₹130</span>
+                        </div>
+                        <p>Bold, intense, and perfectly balanced coffee.</p>
+                    </div>
+                </article>
+
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80"
+                        alt="Freshly baked croissants">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Butter Croissant</h3>
+                            <span class="price">₹150</span>
+                        </div>
+                        <p>Golden, flaky layers baked fresh every morning.</p>
+                    </div>
+                </article>
+
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80"
+                        alt="Chocolate cake">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Chocolate Cake</h3>
+                            <span class="price">₹220</span>
+                        </div>
+                        <p>Decadent chocolate layers for your sweet cravings.</p>
+                    </div>
+                </article>
+
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=800&q=80"
+                        alt="Iced coffee">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Iced Coffee</h3>
+                            <span class="price">₹190</span>
+                        </div>
+                        <p>Chilled coffee with a smooth, refreshing finish.</p>
+                    </div>
+                </article>
+
+                <article class="menu-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80"
+                        alt="Fresh bakery pastry">
+                    <div class="menu-info">
+                        <div class="menu-title">
+                            <h3>Almond Pastry</h3>
+                            <span class="price">₹170</span>
+                        </div>
+                        <p>A delicate pastry with toasted almonds and butter.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <div class="about-image reveal">
+                <img
+                    src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=85"
+                    alt="Barista preparing coffee">
+                <div class="image-label">Crafted with care.</div>
+            </div>
+
+            <div class="about-content reveal">
+                <div class="eyebrow">A little about us</div>
+                <h2>More Than Coffee.<br>A Feeling.</h2>
+
+                <p>
+                    BREW & BEAN started with one simple idea: life feels
+                    better over a great cup of coffee. We bring together
+                    carefully selected beans, passionate baristas, and a
+                    cozy space where everyone belongs.
+                </p>
+
+                <ul class="features">
+                    <li>Specialty coffee, brewed fresh</li>
+                    <li>Freshly baked treats every morning</li>
+                    <li>A cozy corner for work and conversations</li>
+                    <li>Locally sourced ingredients whenever possible</li>
+                </ul>
+
+                <a href="#visit" class="primary-button">Come Say Hello</a>
+            </div>
+        </section>
+
+        <section class="visit-section" id="visit">
+            <div class="eyebrow">Your table is waiting</div>
+            <h2>Make Today a Little Better.</h2>
+            <p>
+                Great coffee, good company, and a place to unwind.<br>
+                Drop by and make yourself at home.
+            </p>
+            <button class="primary-button reserve-trigger">
+                Reserve Your Table
+            </button>
+        </section>
+    </main>
+
+    <footer>
+        <a href="#home" class="logo">BREW <span>&</span> BEAN.</a>
+        <p>© <span id="year"></span> BREW & BEAN. Made with love and coffee.</p>
+        <div class="social-links">
+            <a href="https://instagram.com/" target="_blank"
+               rel="noopener noreferrer">Instagram</a>
+            <a href="https://facebook.com/" target="_blank"
+               rel="noopener noreferrer">Facebook</a>
+        </div>
+    </footer>
+
+    <!-- Reservation modal -->
+
+    <div class="modal" id="reservation-modal"
+         role="dialog" aria-modal="true"
+         aria-labelledby="modal-title">
+
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal"
+                    aria-label="Close reservation form">&times;</button>
+
+            <h2 id="modal-title">Book a Table</h2>
+            <p>Tell us when you'd like to visit.</p>
+
+            <form id="reservation-form">
+                <input type="text" id="guest-name"
+                       placeholder="Your name" required>
+
+                <input type="email" id="guest-email"
+                       placeholder="Your email" required>
+
+                <input type="date" id="visit-date" required>
+
+                <select id="guest-count" required>
+                    <option value="">Number of guests</option>
+                    <option value="1">1 guest</option>
+                    <option value="2">2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
+                    <option value="5">5 guests</option>
+                    <option value="6">6 guests</option>
+                </select>
+
+                <button type="submit" class="primary-button">
+                    Request Reservation
+                </button>
+
+                <div id="form-message" role="status"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile navigation
+        const menuToggle = document.getElementById("menu-toggle");
+        const navigation = document.getElementById("navigation");
+
+        menuToggle.addEventListener("click", () => {
+            const isOpen = navigation.classList.toggle("open");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        // Close mobile menu after clicking a link
+        navigation.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navigation.classList.remove("open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
+
+        // Reservation modal
+        const modal = document.getElementById("reservation-modal");
+        const closeModal = document.getElementById("close-modal");
+        const reservationForm = document.getElementById("reservation-form");
+        const formMessage = document.getElementById("form-message");
+
+        function openReservation() {
+            modal.classList.add("active");
+            formMessage.textContent = "";
+            document.getElementById("guest-name").focus();
+        }
+
+        function hideReservation() {
+            modal.classList.remove("active");
+        }
+
+        document.querySelectorAll(".reserve-trigger").forEach(button => {
+            button.addEventListener("click", openReservation);
+        });
+
+        closeModal.addEventListener("click", hideReservation);
+
+        modal.addEventListener("click", event => {
+            if (event.target === modal) {
+                hideReservation();
+            }
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                hideReservation();
+            }
+        });
+
+        // Set the minimum reservation date to today
+        const visitDate = document.getElementById("visit-date");
+        const today = new Date();
+        const localToday = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, "0"),
+            String(today.getDate()).padStart(2, "0")
+        ].join("-");
+
+        visitDate.min = localToday;
+        visitDate.value = localToday;
+
+        // Frontend-only reservation demo
+        reservationForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            if (!reservationForm.reportValidity()) return;
+
+            const name = document.getElementById("guest-name").value.trim();
+
+            formMessage.textContent =
+                `Thanks, ${name}! This is a demo. Your reservation has not been sent.`;
+
+            reservationForm.reset();
+            visitDate.value = localToday;
+        });
+
+        // Reveal sections as they enter the viewport
+        const revealElements = document.querySelectorAll(".reveal");
+
+        if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            revealElements.forEach(element => observer.observe(element));
+        } else {
+            revealElements.forEach(element => {
+                element.classList.add("visible");
+            });
+        }
+
+        // Dynamic footer year
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>
